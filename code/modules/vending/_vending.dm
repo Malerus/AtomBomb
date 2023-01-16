@@ -985,30 +985,28 @@ GLOBAL_LIST_EMPTY(vending_products)
 /obj/machinery/vending/proc/add_caps(obj/item/I)
 	if(istype(I, /obj/item/stack/f13Cash/usd))
 		var/obj/item/stack/f13Cash/currency = I
-		var/inserted_value = FLOOR(currency.amount * 1, 1)
+		var/inserted_value = FLOOR(currency.amount * 10, 1)
 		stored_caps += inserted_value
 		I.use(currency.amount)
 		playsound(src, 'sound/items/change_jaws.ogg', 60, 1)
 		to_chat(usr, "You put [inserted_value] dollar value to a vending machine.")
 		src.ui_interact(usr)
-		if(inserted_value < 1)
-			to_chat(usr, "We don't accept amounts less that 250 USD!")
 	else
-		to_chat(usr, "We only accept the American dollar here!")
+		to_chat(usr, "We don't accept this currency!")
 		return
 
 /* Spawn all caps on world and clear caps storage */
 /obj/machinery/vending/proc/remove_all_caps()
 	if(stored_caps <= 0)
 		return
-	var/obj/item/stack/f13Cash/U = new /obj/item/stack/f13Cash/usd
-	if(stored_caps > U.max_amount)
-		U.add(U.max_amount - 1)
-		U.forceMove(src.loc)
-		stored_caps -= U.max_amount
+	var/obj/item/stack/f13Cash/I = new /obj/item/stack/f13Cash/iou
+	if(stored_caps > I.max_amount)
+		I.add(I.max_amount - 1)
+		I.forceMove(src.loc)
+		stored_caps -= I.max_amount
 	else
-		U.add(stored_caps - 1)
-		U.forceMove(src.loc)
+		I.add(stored_caps - 1)
+		I.forceMove(src.loc)
 		stored_caps = 0
 	playsound(src, 'sound/items/coinflip.ogg', 60, 1)
 	src.ui_interact(usr)

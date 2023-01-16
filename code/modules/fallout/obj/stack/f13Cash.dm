@@ -5,13 +5,21 @@
 #define CASH_AUR 100 /* 100 caps to 1 AUR */
 #define CASH_DEN 4 /* 4 caps to 1 DEN */
 #define CASH_NCR 0.4 /* $100 to 40 caps */
-#define CASH_USD 0.004 /* $10,000 to 40 caps */
+#define CASH_USD 10 /* $10,000 to 40 caps */
 
 /* value of coins to spawn, use as-is for caps */
 /* LOW_MIN / AUR = amount in AUR */
 
 //Value for USD trashloot
 #define LOWUSD_MAX 10
+
+//IOU paper bill
+#define CASH_IOU 1
+
+//Value for NCR bills
+#define CASH_NCR5 2
+#define CASH_NCR20 8
+#define CASH_NCR100 40
 
 //Value cash spawn for mobs
 #define LOWMOB_MIN 2
@@ -280,41 +288,123 @@
 			icon_state = "[initial(icon_state)]100"
 		if(200 to 499)
 			icon_state = "[initial(icon_state)]200"
-		if(500 to INFINITY)
+		if(500 to 15000)
 			icon_state = "[initial(icon_state)]500"
 
 /obj/item/stack/f13Cash/random/ncr
 	money_type = /obj/item/stack/f13Cash/ncr
 
 /obj/item/stack/f13Cash/random/ncr/low
-	min_qty = LOW_MIN / CASH_NCR
-	max_qty = LOW_MAX / CASH_NCR
+	min_qty = LOW_MIN / CASH_CAP
+	max_qty = LOW_MAX / CASH_CAP
 
 /obj/item/stack/f13Cash/random/ncr/med
-	min_qty = MED_MIN / CASH_NCR
-	max_qty = MED_MAX / CASH_NCR
+	min_qty = MED_MIN / CASH_CAP
+	max_qty = MED_MAX / CASH_CAP
 
 /obj/item/stack/f13Cash/random/ncr/high
-	min_qty = HIGH_MIN / CASH_NCR
-	max_qty = HIGH_MAX / CASH_NCR
+	min_qty = HIGH_MIN / CASH_CAP
+	max_qty = HIGH_MAX / CASH_CAP
 
 /obj/item/stack/f13Cash/random/ncr/ncrpay_basic
-	min_qty = LOW_MIN / CASH_NCR
-	max_qty = LOW_MAX / CASH_NCR
+	min_qty = LOW_MIN / CASH_CAP
+	max_qty = LOW_MAX / CASH_CAP
 
 /obj/item/stack/f13Cash/random/ncr/ncrpay_veteran
-	min_qty = MED_MIN / CASH_NCR
-	max_qty = MED_MAX / CASH_NCR
+	min_qty = MED_MIN / CASH_CAP
+	max_qty = MED_MAX / CASH_CAP
 
 /obj/item/stack/f13Cash/random/ncr/ncrpay_officer
-	min_qty = HIGH_MIN / CASH_NCR
-	max_qty = HIGH_MAX / CASH_NCR
+	min_qty = HIGH_MIN / CASH_CAP
+	max_qty = HIGH_MAX / CASH_CAP
+
+//Individual NCR bills
+/obj/item/stack/f13Cash/ncr5
+	name = "$5 NCR Bill"
+	singular_name = "bill"
+	icon = 'icons/obj/economy.dmi'
+	icon_state = "ncr5"
+	value = CASH_NCR5 * CASH_CAP
+	flippable = FALSE
+	merge_type = /obj/item/stack/f13Cash/ncr5
+
+/obj/item/stack/f13Cash/ncr5/update_icon()
+	switch(amount)
+		if(1  to 15000)
+			icon_state = "[initial(icon_state)]"
+
+/obj/item/stack/f13Cash/random/ncr5
+	money_type = /obj/item/stack/f13Cash/ncr5
+
+/obj/item/stack/f13Cash/random/ncr5/low
+	min_qty = LOW_MIN / CASH_CAP
+	max_qty = LOW_MAX / CASH_CAP
+
+/obj/item/stack/f13Cash/ncr20
+	name = "$20 NCR Dollar Bill"
+	singular_name = "bill"
+	icon = 'icons/obj/economy.dmi'
+	icon_state = "ncr20"
+	value = CASH_NCR20 * CASH_CAP
+	flippable = FALSE
+	merge_type = /obj/item/stack/f13Cash/ncr20
+
+/obj/item/stack/f13Cash/ncr20/update_icon()
+	switch(amount)
+		if(1  to 15000)
+			icon_state = "[initial(icon_state)]"
+
+/obj/item/stack/f13Cash/random/ncr20
+	money_type = /obj/item/stack/f13Cash/ncr20
+
+/obj/item/stack/f13Cash/random/ncr20/low
+	min_qty = LOW_MIN / CASH_CAP
+	max_qty = LOW_MAX / CASH_CAP
+
+/obj/item/stack/f13Cash/ncr100
+	name = "$100 NCR Bill"
+	singular_name = "bill"
+	icon = 'icons/obj/economy.dmi'
+	icon_state = "ncr100"
+	value = CASH_NCR100 * CASH_CAP
+	flippable = FALSE
+	merge_type = /obj/item/stack/f13Cash/ncr100
+
+/obj/item/stack/f13Cash/ncr100/update_icon()
+	switch(amount)
+		if(1  to 15000)
+			icon_state = "[initial(icon_state)]"
+
+/obj/item/stack/f13Cash/random/ncr100
+	money_type = /obj/item/stack/f13Cash/ncr100
+
+/obj/item/stack/f13Cash/random/ncr100/low
+	min_qty = LOW_MIN / CASH_CAP
+	max_qty = LOW_MAX / CASH_CAP
+
+//IOU back note
+/obj/item/stack/f13Cash/iou
+	name = "I.O.U. Bank note"
+	singular_name = "bill"
+	icon = 'icons/obj/economy.dmi'
+	icon_state = "iou"
+	value = CASH_IOU * CASH_CAP
+	flippable = FALSE
+	merge_type = /obj/item/stack/f13Cash/iou
+
+/obj/item/stack/f13Cash/iou/update_icon()
+	switch(amount)
+		if(1  to 15000)
+			icon_state = "[initial(icon_state)]"
+
+/obj/item/stack/f13Cash/random/iou
+	money_type = /obj/item/stack/f13Cash/iou
 
 /obj/item/stack/f13Cash/usd //Don't use base space cash stacks. Any other space cash stack can merge with them, and could cause potential money duping exploits.
 	name = "pre-war cash"
 	singular_name = "bill"
 	icon = 'icons/obj/economy.dmi'
-	icon_state = "spacecash"
+	icon_state = "spacecash50"
 	value = CASH_USD * CASH_CAP
 	flippable = FALSE
 	merge_type = /obj/item/stack/f13Cash/usd
@@ -324,46 +414,34 @@
 		if(1  to 9)
 			icon_state = "[initial(icon_state)]"
 		if(10 to 19)
-			icon_state = "[initial(icon_state)]10"
-		if(20 to 49)
-			icon_state = "[initial(icon_state)]20"
-		if(50 to 99)
-			icon_state = "[initial(icon_state)]50"
-		if(100 to 199)
 			icon_state = "[initial(icon_state)]100"
-		if(200 to 499)
+		if(20 to 49)
 			icon_state = "[initial(icon_state)]200"
-		if(500 to 999)
+		if(50 to 15000)
 			icon_state = "[initial(icon_state)]500"
-		if(1000 to INFINITY)
-			icon_state = "[initial(icon_state)]1000"
 
 /obj/item/stack/f13Cash/random/usd
 	money_type = /obj/item/stack/f13Cash/usd
 
 /obj/item/stack/f13Cash/random/usd/low
-	min_qty = LOW_MIN / CASH_USD
-	max_qty = LOW_MAX / CASH_USD
-
-/obj/item/stack/f13Cash/random/usd/med
-	min_qty = MED_MIN / CASH_USD
-	max_qty = MED_MAX / CASH_USD
-
-/obj/item/stack/f13Cash/random/usd/high
-	min_qty = HIGH_MIN / CASH_USD
-	max_qty = HIGH_MAX / CASH_USD
+	min_qty = LOW_MIN / CASH_CAP
+	max_qty = LOW_MAX / CASH_CAP
 
 /obj/item/stack/f13Cash/random/usd/lowusd
 	spawn_nothing_chance = 75
-	min_qty = LOWUSD_MAX / CASH_USD
-	max_qty = LOWUSD_MAX / CASH_USD
+	min_qty = LOWUSD_MAX / CASH_CAP
+	max_qty = LOWUSD_MAX / CASH_CAP
 
 #undef maxCoinIcon
 #undef CASH_CAP
 #undef CASH_AUR
 #undef CASH_DEN
 #undef CASH_NCR
+#undef CASH_NCR5
+#undef CASH_NCR20
+#undef CASH_NCR100
 #undef CASH_USD
+#undef CASH_IOU
 #undef LOWUSD_MAX
 #undef LOW_MIN
 #undef LOW_MAX
